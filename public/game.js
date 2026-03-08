@@ -193,8 +193,106 @@ playBtn.addEventListener('click', () => {
 
 backBtn.addEventListener('click', returnToMenu);
 cooldownBackBtn.addEventListener('click', returnToMenu);
-function returnToMenu() { gameoverScreen.style.display='none'; cooldownScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; formScreen.style.display='block'; loadLeaderboard(); }
+function returnToMenu() { gameoverScreen.style.display='none'; cooldownScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; formScreen.style.display='block'; // ===== MOBILE TOUCH CONTROLS =====
+function createMobileControls() {
+  const pad = document.createElement('div');
+  pad.id = 'touch-pad';
+  pad.innerHTML = '<div class="tp-row"><button class="tp-btn" data-dir="up">▲</button></div>' +
+    '<div class="tp-row"><button class="tp-btn" data-dir="left">◄</button>' +
+    '<button class="tp-btn tp-mid" data-dir="down">▼</button>' +
+    '<button class="tp-btn" data-dir="right">►</button></div>';
+  pad.style.cssText = 'display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;user-select:none;-webkit-user-select:none;touch-action:manipulation;';
+  const style = document.createElement('style');
+  style.textContent = '.tp-row{display:flex;justify-content:center;gap:6px;margin-bottom:6px}' +
+    '.tp-btn{width:56px;height:56px;font-size:22px;background:#12121f;color:#f5c842;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}' +
+    '.tp-btn:active{background:#2a2a3d;transform:scale(0.93)}' +
+    '.tp-mid{opacity:0.6}' +
+    '@media(pointer:coarse){#touch-pad.tp-active{display:block!important}}';
+  document.head.appendChild(style);
+  document.body.appendChild(pad);
+
+  pad.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    const btn = e.target.closest('.tp-btn');
+    if (!btn || !gameRunning || gameover) return;
+    const dir = btn.dataset.dir;
+    if (dir === 'up') movePlayer('arrowup');
+    else if (dir === 'down') movePlayer('arrowdown');
+    else if (dir === 'left') movePlayer('arrowleft');
+    else if (dir === 'right') movePlayer('arrowright');
+  }, { passive: false });
+
+  return pad;
+}
+
+const touchPad = createMobileControls();
+const origStartGame = startGame;
+startGame = function() {
+  origStartGame();
+  touchPad.classList.add('tp-active');
+};
+const origEndGame = endGame;
+endGame = function() {
+  origEndGame();
+  touchPad.classList.remove('tp-active');
+};
+const origReturnToMenu = returnToMenu;
+returnToMenu = function() {
+  origReturnToMenu();
+  touchPad.classList.remove('tp-active');
+};
+
+loadLeaderboard(); }
 function showCooldown(rem) { formScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; gameoverScreen.style.display='none'; cooldownScreen.style.display='flex';
   function tick() { const r=getCooldownRemaining(xUsername); if(r<=0){cooldownTimer.textContent='Ready to play!';return;} cooldownTimer.textContent=formatMs(r); setTimeout(tick,1000); } tick(); }
+
+// ===== MOBILE TOUCH CONTROLS =====
+function createMobileControls() {
+  const pad = document.createElement('div');
+  pad.id = 'touch-pad';
+  pad.innerHTML = '<div class="tp-row"><button class="tp-btn" data-dir="up">▲</button></div>' +
+    '<div class="tp-row"><button class="tp-btn" data-dir="left">◄</button>' +
+    '<button class="tp-btn tp-mid" data-dir="down">▼</button>' +
+    '<button class="tp-btn" data-dir="right">►</button></div>';
+  pad.style.cssText = 'display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;user-select:none;-webkit-user-select:none;touch-action:manipulation;';
+  const style = document.createElement('style');
+  style.textContent = '.tp-row{display:flex;justify-content:center;gap:6px;margin-bottom:6px}' +
+    '.tp-btn{width:56px;height:56px;font-size:22px;background:#12121f;color:#f5c842;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}' +
+    '.tp-btn:active{background:#2a2a3d;transform:scale(0.93)}' +
+    '.tp-mid{opacity:0.6}' +
+    '@media(pointer:coarse){#touch-pad.tp-active{display:block!important}}';
+  document.head.appendChild(style);
+  document.body.appendChild(pad);
+
+  pad.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    const btn = e.target.closest('.tp-btn');
+    if (!btn || !gameRunning || gameover) return;
+    const dir = btn.dataset.dir;
+    if (dir === 'up') movePlayer('arrowup');
+    else if (dir === 'down') movePlayer('arrowdown');
+    else if (dir === 'left') movePlayer('arrowleft');
+    else if (dir === 'right') movePlayer('arrowright');
+  }, { passive: false });
+
+  return pad;
+}
+
+const touchPad = createMobileControls();
+const origStartGame = startGame;
+startGame = function() {
+  origStartGame();
+  touchPad.classList.add('tp-active');
+};
+const origEndGame = endGame;
+endGame = function() {
+  origEndGame();
+  touchPad.classList.remove('tp-active');
+};
+const origReturnToMenu = returnToMenu;
+returnToMenu = function() {
+  origReturnToMenu();
+  touchPad.classList.remove('tp-active');
+};
 
 loadLeaderboard();
