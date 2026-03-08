@@ -296,3 +296,26 @@ returnToMenu = function() {
 };
 
 loadLeaderboard();
+
+// ===== SOUND TOGGLE =====
+let soundEnabled = true;
+const _origPlaySfx = playSfx;
+playSfx = function(type) { if (soundEnabled) _origPlaySfx(type); };
+const _origStartMusic = startMusic;
+startMusic = function() { if (soundEnabled) _origStartMusic(); };
+
+function createSoundToggle() {
+  const btn = document.createElement('button');
+  btn.id = 'sound-toggle';
+  btn.textContent = '🔊';
+  btn.title = 'Toggle Sound';
+  btn.style.cssText = 'position:fixed;top:12px;right:12px;z-index:300;width:40px;height:40px;font-size:20px;background:#12121f;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  btn.addEventListener('click', function() {
+    soundEnabled = !soundEnabled;
+    btn.textContent = soundEnabled ? '🔊' : '🔇';
+    if (!soundEnabled) { stopMusic(); }
+    else if (gameRunning && !gameover) { startMusic(); }
+  });
+  document.body.appendChild(btn);
+}
+createSoundToggle();
