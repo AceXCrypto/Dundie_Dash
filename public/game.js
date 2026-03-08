@@ -51,43 +51,43 @@ let audioCtx = null, musicPlaying = false, musicNodes = [];
 
 function startMusic() {
   if (musicPlaying) return;
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    musicPlaying = true;
-    const mg = audioCtx.createGain(); mg.gain.value = 0.10; mg.connect(audioCtx.destination);
-    const melody = [72,74,76,79,81,79,76,74,72,69,67,69,72,74,76,74,72,69,67,64];
-    const bass = [48,48,55,55,52,52,50,50,48,48,55,55,52,52,50,50,48,48,55,55];
-    const bpm = 120, beatLen = 60 / bpm;
-    const totalBeats = melody.length, loopDur = totalBeats * beatLen;
-    function mtf(m) { return 440 * Math.pow(2, (m - 69) / 12); }
-    function playLoop() {
-      if (!musicPlaying || !audioCtx) return;
-      var now = audioCtx.currentTime + 0.05;
-      for (var i = 0; i < totalBeats; i++) {
-        var t = now + i * beatLen;
-        var o1 = audioCtx.createOscillator();
-        var g1 = audioCtx.createGain();
-        o1.type = 'sine'; o1.frequency.value = mtf(melody[i]);
-        g1.gain.setValueAtTime(0.12, t);
-        g1.gain.exponentialRampToValueAtTime(0.001, t + beatLen * 0.9);
-        o1.connect(g1); g1.connect(mg);
-        o1.start(t); o1.stop(t + beatLen);
-        if (i % 2 === 0) {
-          var o2 = audioCtx.createOscillator();
-          var g2 = audioCtx.createGain();
-          o2.type = 'triangle'; o2.frequency.value = mtf(bass[i]);
-          g2.gain.setValueAtTime(0.15, t);
-          g2.gain.exponentialRampToValueAtTime(0.001, t + beatLen * 1.8);
-          o2.connect(g2); g2.connect(mg);
-          o2.start(t); o2.stop(t + beatLen * 2);
-        }
+  musicPlaying = true;
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  var mg = audioCtx.createGain(); mg.gain.value = 0.10; mg.connect(audioCtx.destination);
+  var melody = [72,74,76,79,81,79,76,74,72,69,67,69,72,74,76,74,72,69,67,64];
+  var bass = [48,48,55,55,52,52,50,50,48,48,55,55,52,52,50,50,48,48,55,55];
+  function mtf(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  var noteIndex = 0;
+  function playNote() {
+    if (!musicPlaying || !audioCtx) return;
+    try {
+      var now = audioCtx.currentTime;
+      var o1 = audioCtx.createOscillator();
+      var g1 = audioCtx.createGain();
+      o1.type = 'sine';
+      o1.frequency.value = mtf(melody[noteIndex % melody.length]);
+      g1.gain.setValueAtTime(0.12, now);
+      g1.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      o1.connect(g1); g1.connect(mg);
+      o1.start(now); o1.stop(now + 0.45);
+      if (noteIndex % 2 === 0) {
+        var o2 = audioCtx.createOscillator();
+        var g2 = audioCtx.createGain();
+        o2.type = 'triangle';
+        o2.frequency.value = mtf(bass[noteIndex % bass.length]);
+        g2.gain.setValueAtTime(0.15, now);
+        g2.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        o2.connect(g2); g2.connect(mg);
+        o2.start(now); o2.stop(now + 0.95);
       }
-      setTimeout(function() { playLoop(); }, loopDur * 1000 - 200);
-    }
-    playLoop();
-  } catch (e) { console.warn('Audio not supported', e); }
+      noteIndex++;
+    } catch(e) {}
+  }
+  musicNodes.interval = setInterval(playNote, 500);
+  playNote();
 }
-function stopMusic() { musicPlaying = false; if (audioCtx) { audioCtx.close().catch(function(){}); audioCtx = null; } }
+function stopMusic() { musicPlaying = false; if (musicNodes.interval) clearInterval(musicNodes.interval); musicNodes = []; if (audioCtx) { audioCtx.close().catch(function(){}); audioCtx = null; } }
 function playSfx(type) {
   if (!audioCtx) return; try {
     const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.connect(g).connect(audioCtx.destination);
