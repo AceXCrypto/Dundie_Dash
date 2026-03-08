@@ -74,7 +74,7 @@ function startMusic() {
           o2.connect(g2).connect(mg); o2.start(t); o2.stop(t + beatLen * 2); musicNodes.push(o2, g2);
         }
       }
-      if (musicPlaying) setTimeout(() => { if (musicPlaying) scheduleLoop(st + loopDur); }, (loopDur - 1) * 1000);
+      if (musicPlaying) setTimeout(() => { if (musicPlaying && audioCtx) scheduleLoop(st + loopDur); }, (loopDur - 1) * 1000);
     }
     scheduleLoop(audioCtx.currentTime + 0.1);
   } catch (e) { console.warn('Audio not supported', e); }
