@@ -164,7 +164,7 @@ function startGame() { player={col:5,row:14}; score=0; gameover=false; gameRunni
 
 function endGame() { gameover=true; gameRunning=false; cancelAnimationFrame(frameId); stopMusic(); playSfx('die');
   const fs=Math.min(Math.max(score,0),MAX_SCORE); finalScoreText.textContent='🏆 '+fs+' Dundies';
-  setCooldownForUser(xUsername); submitScore(xUsername,walletAddress,fs);
+  submitScore(xUsername,walletAddress,fs);
   canvas.style.display='none'; hud.style.display='none'; gameoverScreen.style.display='flex'; }
 
 async function submitScore(u,w,s) { try { const r=await fetch(API_BASE+'/submit-score',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({x_username:u,wallet_address:w,score:s})}); const d=await r.json(); if(!d.success) console.warn('Score issue:',d.error); } catch(e) { console.error('Submit failed:',e); document.getElementById('save-msg').textContent='Could not save score (server offline).'; } }
@@ -185,7 +185,7 @@ playBtn.addEventListener('click', () => {
   if(!wallet){formError.textContent='Enter your Solana wallet.';return;}
   if(!validateWallet(wallet)){formError.textContent='Invalid Solana wallet format.';return;}
   xUsername=user; walletAddress=wallet;
-  const rem=getCooldownRemaining(xUsername); if(rem>0){showCooldown(rem);return;}
+  
   formError.textContent='Loading sprites...'; formError.style.color='#f5c842';
   loadAllImages(()=>{ formError.textContent=''; formError.style.color='';
     formScreen.style.display='none'; canvas.style.display='block'; hud.style.display='flex'; gameoverScreen.style.display='none'; startGame(); });
