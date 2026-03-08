@@ -1,0 +1,261 @@
+/* ========================================
+   DUNDIE DASH — Retro Arcade Stylesheet
+   ======================================== */
+
+:root {
+  --bg:        #0a0a12;
+  --surface:   #12121f;
+  --border:    #2a2a3d;
+  --primary:   #f5c842;
+  --accent:    #42f587;
+  --danger:    #f54263;
+  --text:      #e0e0e8;
+  --muted:     #6a6a80;
+  --font:      'Press Start 2P', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 24px;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+}
+
+/* Scanline overlay for retro CRT feel */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  z-index: 9999;
+}
+
+#wrapper {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* ===== TITLE ===== */
+#title {
+  font-size: 18px;
+  color: var(--primary);
+  text-shadow: 0 0 12px rgba(245,200,66,0.5);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+#subtitle {
+  font-size: 8px;
+  color: var(--muted);
+  margin-bottom: 18px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 12px rgba(245,200,66,0.4); }
+  50%      { text-shadow: 0 0 24px rgba(245,200,66,0.8), 0 0 48px rgba(245,200,66,0.3); }
+}
+
+/* ===== FORM SCREEN ===== */
+#form-screen {
+  width: 100%;
+}
+
+#form-box, #leaderboard-box, #gameover-box, #cooldown-box {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  font-size: 8px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+label:first-of-type { margin-top: 0; }
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-family: var(--font);
+  font-size: 9px;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--border);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input[type="text"]:focus {
+  border-color: var(--primary);
+}
+
+#form-error {
+  font-size: 7px;
+  color: var(--danger);
+  min-height: 14px;
+  margin-top: 8px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-family: var(--font);
+  font-size: 10px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+  margin-top: 4px;
+}
+button:active { transform: scale(0.97); }
+
+#play-btn {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: 0 4px 0 #c9a020;
+}
+#play-btn:hover { box-shadow: 0 2px 0 #c9a020; transform: translateY(2px); }
+
+#back-btn, #cooldown-back-btn {
+  background: var(--border);
+  color: var(--text);
+  box-shadow: 0 4px 0 #1a1a2d;
+  margin-top: 14px;
+}
+
+/* ===== LEADERBOARD ===== */
+#leaderboard-box h2 {
+  font-size: 10px;
+  color: var(--primary);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+#leaderboard-list {
+  list-style: none;
+  counter-reset: lb;
+}
+#leaderboard-list li {
+  counter-increment: lb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+}
+#leaderboard-list li::before {
+  content: counter(lb) ".";
+  color: var(--muted);
+  min-width: 28px;
+}
+#leaderboard-list li:nth-child(1)::before { color: #ffd700; }
+#leaderboard-list li:nth-child(2)::before { color: #c0c0c0; }
+#leaderboard-list li:nth-child(3)::before { color: #cd7f32; }
+
+.lb-name  { flex: 1; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-score { color: var(--primary); margin-left: 8px; }
+
+#leaderboard-list .empty-lb {
+  color: var(--muted);
+  text-align: center;
+  display: block;
+  padding: 12px;
+}
+
+/* ===== CANVAS ===== */
+#game-canvas {
+  border: 2px solid var(--border);
+  border-radius: 2px;
+  background: #0d1117;
+}
+
+/* ===== HUD ===== */
+#hud {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 2px;
+  font-size: 9px;
+}
+#hud-score { color: var(--primary); }
+#hud-user  { color: var(--muted); font-size: 7px; }
+
+/* ===== GAME OVER ===== */
+#gameover-screen, #cooldown-screen {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(10,10,18,0.88);
+  z-index: 100;
+}
+
+#gameover-box h2, #cooldown-box h2 {
+  font-size: 16px;
+  color: var(--danger);
+  margin-bottom: 14px;
+  text-align: center;
+}
+#cooldown-box h2 { color: var(--primary); }
+
+#final-score-text {
+  font-size: 12px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 8px;
+}
+#save-msg {
+  font-size: 7px;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 8px;
+}
+.hint {
+  font-size: 7px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+}
+
+#cooldown-timer {
+  font-size: 11px;
+  color: var(--accent);
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 440px) {
+  #wrapper { width: 98vw; }
+  #game-canvas { width: 100%; height: auto; }
+  #hud { width: 100%; }
+}

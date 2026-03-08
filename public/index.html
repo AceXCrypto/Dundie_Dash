@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dundie Dash</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="wrapper">
+    <h1 id="title">🏆 DUNDIE DASH 🏆</h1>
+    <p id="subtitle">Hop. Collect. Survive.</p>
+
+    <!-- ===== LOGIN FORM ===== -->
+    <div id="form-screen">
+      <div id="form-box">
+        <label for="x-username">X Username</label>
+        <input type="text" id="x-username" placeholder="@yourhandle" maxlength="30" autocomplete="off">
+
+        <label for="wallet-address">Solana Wallet Address</label>
+        <input type="text" id="wallet-address" placeholder="Your SOL wallet" maxlength="50" autocomplete="off">
+
+        <p id="form-error"></p>
+        <button id="play-btn">START GAME</button>
+      </div>
+      <div id="leaderboard-box">
+        <h2>🏅 WEEKLY TOP 10</h2>
+        <ol id="leaderboard-list"></ol>
+      </div>
+    </div>
+
+    <!-- ===== GAME CANVAS ===== -->
+    <canvas id="game-canvas" width="400" height="600" style="display:none;"></canvas>
+
+    <!-- ===== HUD (overlaid on canvas) ===== -->
+    <div id="hud" style="display:none;">
+      <span id="hud-score">🏆 0</span>
+      <span id="hud-user"></span>
+    </div>
+
+    <!-- ===== GAME OVER OVERLAY ===== -->
+    <div id="gameover-screen" style="display:none;">
+      <div id="gameover-box">
+        <h2>GAME OVER</h2>
+        <p id="final-score-text"></p>
+        <p id="save-msg">Your score has been saved!</p>
+        <p class="hint">Thanks for playing!<br>Try again tomorrow!</p>
+        <button id="back-btn">BACK TO MENU</button>
+      </div>
+    </div>
+
+    <!-- ===== ALREADY PLAYED TODAY ===== -->
+    <div id="cooldown-screen" style="display:none;">
+      <div id="cooldown-box">
+        <h2>HOLD UP! ✋</h2>
+        <p>You already played today.</p>
+        <p id="cooldown-timer"></p>
+        <p class="hint">Come back tomorrow for another run!</p>
+        <button id="cooldown-back-btn">BACK TO MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
