@@ -240,7 +240,7 @@ function createSoundToggle() {
   btn.id = 'sound-toggle';
   btn.textContent = '\u{1F50A}';
   btn.title = 'Toggle Sound';
-  btn.style.cssText = 'position:fixed;top:12px;right:12px;z-index:300;width:44px;height:44px;font-size:22px;background:#12121f;border:2px solid #2a2a3d;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  btn.style.cssText = 'position:fixed;bottom:12px;right:12px;z-index:300;width:44px;height:44px;font-size:22px;background:#12121f;border:2px solid #f5c842;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;';
   btn.addEventListener('click', function() {
     soundEnabled = !soundEnabled;
     btn.textContent = soundEnabled ? '\u{1F50A}' : '\u{1F507}';

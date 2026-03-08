@@ -259,3 +259,46 @@ button:active { transform: scale(0.97); }
   #game-canvas { width: 100%; height: auto; }
   #hud { width: 100%; }
 }
+
+/* ===== MOBILE FIXES ===== */
+#legal-links {
+  text-align: center;
+  padding: 16px 0;
+  font-family: var(--font);
+  font-size: 6px;
+}
+#legal-links a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 10px;
+}
+#legal-links a:hover {
+  color: var(--primary);
+}
+
+#wrapper {
+  padding: 0 10px;
+}
+
+#title {
+  text-align: center;
+  width: 100%;
+}
+
+#subtitle {
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 440px) {
+  body {
+    padding-top: 12px;
+  }
+  #title {
+    font-size: 14px;
+  }
+  #game-canvas {
+    width: 100%;
+    height: auto;
+  }
+}
