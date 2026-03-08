@@ -201,129 +201,84 @@ playBtn.addEventListener('click', () => {
 
 backBtn.addEventListener('click', returnToMenu);
 cooldownBackBtn.addEventListener('click', returnToMenu);
-function returnToMenu() { gameoverScreen.style.display='none'; cooldownScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; formScreen.style.display='block'; // ===== MOBILE TOUCH CONTROLS =====
-function createMobileControls() {
-  const pad = document.createElement('div');
-  pad.id = 'touch-pad';
-  pad.innerHTML = '<div class="tp-row"><button class="tp-btn" data-dir="up">▲</button></div>' +
-    '<div class="tp-row"><button class="tp-btn" data-dir="left">◄</button>' +
-    '<button class="tp-btn tp-mid" data-dir="down">▼</button>' +
-    '<button class="tp-btn" data-dir="right">►</button></div>';
-  pad.style.cssText = 'display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;user-select:none;-webkit-user-select:none;touch-action:manipulation;';
-  const style = document.createElement('style');
-  style.textContent = '.tp-row{display:flex;justify-content:center;gap:6px;margin-bottom:6px}' +
-    '.tp-btn{width:56px;height:56px;font-size:22px;background:#12121f;color:#f5c842;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}' +
-    '.tp-btn:active{background:#2a2a3d;transform:scale(0.93)}' +
-    '.tp-mid{opacity:0.6}' +
-    '@media(pointer:coarse){#touch-pad.tp-active{display:block!important}}';
-  document.head.appendChild(style);
-  document.body.appendChild(pad);
+function returnToMenu() { gameoverScreen.style.display='none'; cooldownScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; formScreen.style.display='block'; loadLeaderboard(); }
 
-  pad.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    const btn = e.target.closest('.tp-btn');
-    if (!btn || !gameRunning || gameover) return;
-    const dir = btn.dataset.dir;
-    if (dir === 'up') movePlayer('arrowup');
-    else if (dir === 'down') movePlayer('arrowdown');
-    else if (dir === 'left') movePlayer('arrowleft');
-    else if (dir === 'right') movePlayer('arrowright');
-  }, { passive: false });
-
-  return pad;
-}
-
-const touchPad = createMobileControls();
-const origStartGame = startGame;
-startGame = function() {
-  origStartGame();
-  touchPad.classList.add('tp-active');
-};
-const origEndGame = endGame;
-endGame = function() {
-  origEndGame();
-  touchPad.classList.remove('tp-active');
-};
-const origReturnToMenu = returnToMenu;
-returnToMenu = function() {
-  origReturnToMenu();
-  touchPad.classList.remove('tp-active');
-};
-
-loadLeaderboard(); }
-function showCooldown(rem) { formScreen.style.display='none'; canvas.style.display='none'; hud.style.display='none'; gameoverScreen.style.display='none'; cooldownScreen.style.display='flex';
-  function tick() { const r=getCooldownRemaining(xUsername); if(r<=0){cooldownTimer.textContent='Ready to play!';return;} cooldownTimer.textContent=formatMs(r); setTimeout(tick,1000); } tick(); }
 
 // ===== MOBILE TOUCH CONTROLS =====
 function createMobileControls() {
-  const pad = document.createElement('div');
+  var pad = document.createElement('div');
   pad.id = 'touch-pad';
-  pad.innerHTML = '<div class="tp-row"><button class="tp-btn" data-dir="up">▲</button></div>' +
-    '<div class="tp-row"><button class="tp-btn" data-dir="left">◄</button>' +
-    '<button class="tp-btn tp-mid" data-dir="down">▼</button>' +
-    '<button class="tp-btn" data-dir="right">►</button></div>';
-  pad.style.cssText = 'display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;user-select:none;-webkit-user-select:none;touch-action:manipulation;';
-  const style = document.createElement('style');
-  style.textContent = '.tp-row{display:flex;justify-content:center;gap:6px;margin-bottom:6px}' +
-    '.tp-btn{width:56px;height:56px;font-size:22px;background:#12121f;color:#f5c842;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}' +
-    '.tp-btn:active{background:#2a2a3d;transform:scale(0.93)}' +
-    '.tp-mid{opacity:0.6}' +
-    '@media(pointer:coarse){#touch-pad.tp-active{display:block!important}}';
+  pad.style.cssText = 'display:none;width:400px;max-width:100%;margin:10px auto 0;user-select:none;-webkit-user-select:none;touch-action:manipulation;';
+  pad.innerHTML =
+    '<div style="display:flex;justify-content:center;margin-bottom:6px;">' +
+      '<button class="tp-btn" data-dir="up">&#9650;</button>' +
+    '</div>' +
+    '<div style="display:flex;justify-content:center;gap:8px;">' +
+      '<button class="tp-btn" data-dir="left">&#9664;</button>' +
+      '<button class="tp-btn" data-dir="down">&#9660;</button>' +
+      '<button class="tp-btn" data-dir="right">&#9654;</button>' +
+    '</div>';
+  var style = document.createElement('style');
+  style.textContent =
+    '.tp-btn{width:64px;height:64px;font-size:24px;background:#12121f;color:#f5c842;' +
+    'border:2px solid #2a2a3d;border-radius:8px;cursor:pointer;display:flex;align-items:center;' +
+    'justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}' +
+    '.tp-btn:active{background:#2a2a3d;transform:scale(0.9);}';
   document.head.appendChild(style);
-  document.body.appendChild(pad);
-
+  document.getElementById('wrapper').appendChild(pad);
   pad.addEventListener('touchstart', function(e) {
     e.preventDefault();
-    const btn = e.target.closest('.tp-btn');
+    var btn = e.target.closest('.tp-btn');
     if (!btn || !gameRunning || gameover) return;
-    const dir = btn.dataset.dir;
+    var dir = btn.dataset.dir;
     if (dir === 'up') movePlayer('arrowup');
     else if (dir === 'down') movePlayer('arrowdown');
     else if (dir === 'left') movePlayer('arrowleft');
     else if (dir === 'right') movePlayer('arrowright');
   }, { passive: false });
-
+  pad.addEventListener('click', function(e) {
+    var btn = e.target.closest('.tp-btn');
+    if (!btn || !gameRunning || gameover) return;
+    var dir = btn.dataset.dir;
+    if (dir === 'up') movePlayer('arrowup');
+    else if (dir === 'down') movePlayer('arrowdown');
+    else if (dir === 'left') movePlayer('arrowleft');
+    else if (dir === 'right') movePlayer('arrowright');
+  });
   return pad;
 }
+var touchPad = createMobileControls();
 
-const touchPad = createMobileControls();
-const origStartGame = startGame;
-startGame = function() {
-  origStartGame();
-  touchPad.classList.add('tp-active');
-};
-const origEndGame = endGame;
-endGame = function() {
-  origEndGame();
-  touchPad.classList.remove('tp-active');
-};
-const origReturnToMenu = returnToMenu;
-returnToMenu = function() {
-  origReturnToMenu();
-  touchPad.classList.remove('tp-active');
-};
-
-loadLeaderboard();
+// Show/hide controls with game state
+var _origStart = startGame;
+startGame = function() { _origStart(); touchPad.style.display = 'block'; };
+var _origEnd = endGame;
+endGame = function() { _origEnd(); touchPad.style.display = 'none'; };
+var _origMenu = returnToMenu;
+returnToMenu = function() { _origMenu(); touchPad.style.display = 'none'; };
 
 // ===== SOUND TOGGLE =====
-let soundEnabled = true;
-const _origPlaySfx = playSfx;
-playSfx = function(type) { if (soundEnabled) _origPlaySfx(type); };
-const _origStartMusic = startMusic;
-startMusic = function() { if (soundEnabled) _origStartMusic(); };
+var soundEnabled = true;
+var _origSfx = playSfx;
+playSfx = function(type) { if (soundEnabled) _origSfx(type); };
+var _origMusic = startMusic;
+startMusic = function() { if (soundEnabled) _origMusic(); };
 
 function createSoundToggle() {
-  const btn = document.createElement('button');
+  var btn = document.createElement('button');
   btn.id = 'sound-toggle';
-  btn.textContent = '🔊';
+  btn.textContent = '\u{1F50A}';
   btn.title = 'Toggle Sound';
-  btn.style.cssText = 'position:fixed;top:12px;right:12px;z-index:300;width:40px;height:40px;font-size:20px;background:#12121f;border:2px solid #2a2a3d;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  btn.style.cssText = 'position:fixed;top:12px;right:12px;z-index:300;width:44px;height:44px;font-size:22px;background:#12121f;border:2px solid #2a2a3d;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;';
   btn.addEventListener('click', function() {
     soundEnabled = !soundEnabled;
-    btn.textContent = soundEnabled ? '🔊' : '🔇';
-    if (!soundEnabled) { stopMusic(); }
-    else if (gameRunning && !gameover) { startMusic(); }
+    btn.textContent = soundEnabled ? '\u{1F50A}' : '\u{1F507}';
+    if (!soundEnabled) stopMusic();
+    else if (gameRunning && !gameover) startMusic();
   });
   document.body.appendChild(btn);
 }
 createSoundToggle();
+
+// ===== INIT =====
+loadLeaderboard();
