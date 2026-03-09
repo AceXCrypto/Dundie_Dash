@@ -46,11 +46,20 @@ body::after {
 }
 
 #wrapper {
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+#wrapper > * {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===== TITLE ===== */
@@ -568,10 +577,3 @@ button:active { transform: scale(0.97); }
   border-bottom: none;
 }
 
-
-/* ===== LAYOUT FIX ===== */
-#form-screen, #prize-pool, #hall-of-fame, #instructions, #alltime-box, #leaderboard-box {
-  width: 100%;
-  max-width: 420px;
-  box-sizing: border-box;
-}
