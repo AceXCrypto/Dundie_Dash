@@ -56,6 +56,7 @@ bgMusic.volume = 0.15;
 function startMusic() {
   if (musicPlaying) return;
   musicPlaying = true;
+  bgMusic.currentTime = bgMusic.currentTime || 0;
   bgMusic.play().catch(function(){});
 }
 function stopMusic() { musicPlaying = false; bgMusic.pause(); }
@@ -247,20 +248,28 @@ function createSoundToggle() {
     soundEnabled = !soundEnabled;
     btn.textContent = soundEnabled ? '\u{1F50A}' : '\u{1F507}';
     if (!soundEnabled) { bgMusic.pause(); musicPlaying = false; }
-    else { bgMusic.play().catch(function(){}); musicPlaying = true; }
+    else { musicPlaying = false; startMusic(); }
   });
   document.body.appendChild(btn);
 }
 createSoundToggle();
 
 // ===== LANDING PAGE MUSIC =====
-document.addEventListener('click', function startLandingMusic() {
+// Browsers require a user gesture before playing audio.
+// We try to start music on ANY first interaction.
+function tryStartMusic() {
   if (!musicPlaying && soundEnabled) {
-    bgMusic.play().catch(function(){});
-    musicPlaying = true;
+    bgMusic.play().then(function() {
+      musicPlaying = true;
+    }).catch(function(){});
   }
-  document.removeEventListener('click', startLandingMusic);
-}, { once: true });
+  document.removeEventListener('click', tryStartMusic);
+  document.removeEventListener('touchstart', tryStartMusic);
+  document.removeEventListener('keydown', tryStartMusic);
+}
+document.addEventListener('click', tryStartMusic);
+document.addEventListener('touchstart', tryStartMusic);
+document.addEventListener('keydown', tryStartMusic);
 
 // ===== INIT =====
 loadLeaderboard();
