@@ -384,3 +384,93 @@ button:active { transform: scale(0.97); }
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== PRIZE POOL ===== */
+#prize-pool {
+  background: var(--surface);
+  border: 2px solid #f5c842;
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 14px;
+  width: 100%;
+}
+#prize-pool h2 {
+  font-size: 10px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 14px;
+}
+.prize-item {
+  font-size: 8px;
+  color: var(--accent);
+  text-align: center;
+  padding: 8px;
+  background: rgba(66, 245, 135, 0.05);
+  border: 1px solid rgba(66, 245, 135, 0.15);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.prize-note {
+  font-size: 6px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.8;
+}
+
+/* ===== HALL OF FAME ===== */
+#hall-of-fame {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 14px;
+  width: 100%;
+}
+#hall-of-fame h2 {
+  font-size: 10px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 14px;
+}
+.winner-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 7px;
+}
+.winner-card:last-child {
+  border-bottom: none;
+}
+.winner-name {
+  color: var(--accent);
+  flex: 1;
+}
+.winner-score {
+  color: var(--primary);
+  margin: 0 10px;
+}
+.winner-week {
+  color: var(--muted);
+  font-size: 6px;
+}
+.winner-prize {
+  color: var(--accent);
+  font-size: 6px;
+  margin-left: 8px;
+}
+.winner-sent {
+  color: var(--accent);
+}
+.winner-pending {
+  color: var(--danger);
+  font-size: 6px;
+}
+.empty-winners {
+  color: var(--muted);
+  text-align: center;
+  font-size: 7px;
+  padding: 10px;
+}
