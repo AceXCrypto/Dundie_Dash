@@ -287,9 +287,7 @@ async function loadWinners() {
     container.innerHTML = data.map(function(w) {
       var date = new Date(w.week_ending).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       var prizeText = w.prize_description || w.prize_type || 'TBD';
-      var sentBadge = w.prize_sent
-        ? '<span class="winner-sent">✅</span>'
-        : '<span class="winner-pending">⏳ pending</span>';
+      var sentBadge = '<span class="winner-sent">✅ Prize Sent</span>';
       return '<div class="winner-card">' +
         '<span class="winner-name">👑 ' + w.x_username + '</span>' +
         '<span class="winner-score">🏆 ' + w.score + '</span>' +
