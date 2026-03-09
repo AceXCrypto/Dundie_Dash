@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
       .select('x_username, best_score')
       .gt('best_score', 0)
       .order('best_score', { ascending: false })
-      .limit(10);
+      .limit(5);
     if (error) throw error;
     return res.json(data);
   } catch (err) {
