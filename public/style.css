@@ -276,9 +276,6 @@ button:active { transform: scale(0.97); }
   color: var(--primary);
 }
 
-#wrapper {
-  padding: 0 10px;
-}
 
 #title {
   text-align: center;
@@ -569,4 +566,12 @@ button:active { transform: scale(0.97); }
 /* Leaderboard box separator */
 #leaderboard-box {
   border-bottom: none;
+}
+
+
+/* ===== LAYOUT FIX ===== */
+#form-screen, #prize-pool, #hall-of-fame, #instructions, #alltime-box, #leaderboard-box {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
 }
