@@ -291,7 +291,7 @@ async function loadWinners() {
         '<span class="winner-name">👑 ' + w.x_username + '</span>' +
         '<span class="winner-score">🏆 ' + w.score + '</span>' +
         '<span class="winner-week">' + date + '</span>' +
-        '<span class="winner-prize">' + prizeText + ' ' + sentBadge + '</span>' +
+        '<span class="winner-prize">' + sentBadge + '</span>' +
         '</div>';
     }).join('');
   } catch (e) {
