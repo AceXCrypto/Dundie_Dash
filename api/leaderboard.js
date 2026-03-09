@@ -5,7 +5,7 @@ module.exports = async function handler(req, res) {
     const supabase = getSupabase();
     const { data, error } = await supabase
       .from('players').select('x_username, weekly_score, best_score')
-      .order('weekly_score', { ascending: false }).limit(10);
+      .gt('weekly_score', 0).order('weekly_score', { ascending: false }).limit(10);
     if (error) throw error;
     return res.json(data);
   } catch (err) {
