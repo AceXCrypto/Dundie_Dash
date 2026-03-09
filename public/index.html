@@ -18,10 +18,8 @@
       <div id="form-box">
         <label for="x-username">X Username</label>
         <input type="text" id="x-username" placeholder="@yourhandle" maxlength="30" autocomplete="off">
-
         <label for="wallet-address">Solana Wallet Address</label>
         <input type="text" id="wallet-address" placeholder="Your SOL wallet" maxlength="50" autocomplete="off">
-
         <p id="form-error"></p>
         <button id="play-btn">START GAME</button>
       </div>
@@ -29,7 +27,6 @@
         <h2>🏅 WEEKLY TOP 10</h2>
         <ol id="leaderboard-list"></ol>
       </div>
-    </div>
       <div id="alltime-box">
         <h2>🕹️ ALL TIME HIGH SCORES</h2>
         <ol id="alltime-list"></ol>
@@ -39,13 +36,13 @@
     <!-- ===== GAME CANVAS ===== -->
     <canvas id="game-canvas" width="400" height="600" style="display:none;"></canvas>
 
-    <!-- ===== HUD (overlaid on canvas) ===== -->
+    <!-- ===== HUD ===== -->
     <div id="hud" style="display:none;">
       <span id="hud-score">🏆 0</span>
       <span id="hud-user"></span>
     </div>
 
-    <!-- ===== GAME OVER OVERLAY ===== -->
+    <!-- ===== GAME OVER ===== -->
     <div id="gameover-screen" style="display:none;">
       <div id="gameover-box">
         <h2>GAME OVER</h2>
@@ -57,7 +54,7 @@
       </div>
     </div>
 
-    <!-- ===== ALREADY PLAYED TODAY ===== -->
+    <!-- ===== COOLDOWN ===== -->
     <div id="cooldown-screen" style="display:none;">
       <div id="cooldown-box">
         <h2>HOLD UP! ✋</h2>
@@ -67,20 +64,8 @@
         <button id="cooldown-back-btn">BACK TO MENU</button>
       </div>
     </div>
-  <div id="prize-pool">
-      <h2>🎁 THIS WEEK'S PRIZE POOL</h2>
-      <div id="prize-list">
-        <div class="prize-item">🖼️ 1x Dundies District NFT</div>
-      </div>
-      <p class="prize-note">Top scorer when the leaderboard resets Sunday midnight CST wins it all!</p>
-      <p class="prize-note">Want to donate to the prize pool? DM us on Discord!</p>
-    </div>
 
-    <div id="hall-of-fame">
-      <h2>👑 HALL OF FAME</h2>
-      <div id="winners-list"><p class="empty-winners">No winners yet — be the first!</p></div>
-    </div>
-
+    <!-- ===== INSTRUCTIONS ===== -->
     <div id="instructions">
       <h2>HOW TO PLAY</h2>
       <div class="inst-grid">
@@ -111,6 +96,23 @@
       </div>
     </div>
 
+    <!-- ===== PRIZE POOL ===== -->
+    <div id="prize-pool">
+      <h2>🎁 THIS WEEK'S PRIZE POOL</h2>
+      <div id="prize-list">
+        <div class="prize-item">🖼️ 1x Dundies District NFT</div>
+      </div>
+      <p class="prize-note">Top scorer when the leaderboard resets Sunday midnight CST wins it all!</p>
+      <p class="prize-note">Want to donate to the prize pool? DM us on Discord!</p>
+    </div>
+
+    <!-- ===== HALL OF FAME ===== -->
+    <div id="hall-of-fame">
+      <h2>👑 HALL OF FAME</h2>
+      <div id="winners-list"><p class="empty-winners">No winners yet — be the first!</p></div>
+    </div>
+
+    <!-- ===== LEGAL ===== -->
     <div id="legal-links">
       <a href="/terms.html">Terms of Service</a>
       <a href="/privacy.html">Privacy Policy</a>
@@ -118,6 +120,5 @@
   </div>
 
   <script src="game.js"></script>
-
 </body>
 </html>
