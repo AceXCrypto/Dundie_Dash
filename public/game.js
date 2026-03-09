@@ -199,7 +199,7 @@ function createMobileControls() {
     'justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}' +
     '.tp-btn:active{background:#2a2a3d;transform:scale(0.9);}';
   document.head.appendChild(style);
-  document.getElementById('wrapper').appendChild(pad);
+  var wrapper = document.getElementById('wrapper'); var hudEl = document.getElementById('hud'); wrapper.insertBefore(pad, hudEl.nextSibling);
   pad.addEventListener('touchstart', function(e) {
     e.preventDefault();
     var btn = e.target.closest('.tp-btn');
