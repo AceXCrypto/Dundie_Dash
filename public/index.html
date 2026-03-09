@@ -11,6 +11,7 @@
   <div id="wrapper">
     <h1 id="title">🏆 DUNDIE DASH 🏆</h1>
     <p id="subtitle">Hop. Collect. Survive.</p>
+    <p id="insert-coin">- PRESS START TO PLAY -</p>
 
     <!-- ===== LOGIN FORM ===== -->
     <div id="form-screen">
@@ -29,6 +30,11 @@
         <ol id="leaderboard-list"></ol>
       </div>
     </div>
+      <div id="alltime-box">
+        <h2>🕹️ ALL TIME HIGH SCORES</h2>
+        <ol id="alltime-list"></ol>
+      </div>
+    </div>
 
     <!-- ===== GAME CANVAS ===== -->
     <canvas id="game-canvas" width="400" height="600" style="display:none;"></canvas>
@@ -43,6 +49,7 @@
     <div id="gameover-screen" style="display:none;">
       <div id="gameover-box">
         <h2>GAME OVER</h2>
+        <p id="new-highscore" style="display:none;">⭐ NEW HIGH SCORE! ⭐</p>
         <p id="final-score-text"></p>
         <p id="save-msg">Your score has been saved!</p>
         <p class="hint">Thanks for Playing with your Dundie!<br>Try again!</p>

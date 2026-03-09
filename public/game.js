@@ -302,3 +302,59 @@ async function loadWinners() {
   }
 }
 loadWinners();
+
+// ===== ALL TIME HIGH SCORES =====
+async function loadAllTime() {
+  try {
+    var res = await fetch(API_BASE + '/alltime');
+    var data = await res.json();
+    var list = document.getElementById('alltime-list');
+    if (!list) return;
+    if (!data || data.length === 0) {
+      list.innerHTML = '<li class="empty-at">No scores yet — make history!</li>';
+      return;
+    }
+    list.innerHTML = data.map(function(p) {
+      return '<li><span class="at-name">' + escapeHtml(p.x_username) + '</span><span class="at-score">' + p.best_score + '</span></li>';
+    }).join('');
+  } catch (e) {
+    var list = document.getElementById('alltime-list');
+    if (list) list.innerHTML = '<li class="empty-at">Could not load</li>';
+  }
+}
+loadAllTime();
+
+// ===== NEW HIGH SCORE DETECTION =====
+var _origEndForHighScore = endGame;
+endGame = function() {
+  var currentScore = Math.min(Math.max(score, 0), MAX_SCORE);
+
+  _origEndForHighScore();
+
+  // Check if this is a new personal best
+  fetch(API_BASE + '/alltime').then(function(r) { return r.json(); }).then(function(data) {
+    var myBest = 0;
+    if (data) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].x_username === xUsername && data[i].best_score > myBest) {
+          myBest = data[i].best_score;
+        }
+      }
+    }
+    var hsEl = document.getElementById('new-highscore');
+    if (hsEl && currentScore >= myBest && currentScore > 0) {
+      hsEl.style.display = 'block';
+    }
+    // Refresh all-time board
+    loadAllTime();
+  }).catch(function(){});
+};
+
+// Hide high score message when returning to menu
+var _origMenuForHighScore = returnToMenu;
+returnToMenu = function() {
+  var hsEl = document.getElementById('new-highscore');
+  if (hsEl) hsEl.style.display = 'none';
+  _origMenuForHighScore();
+  loadAllTime();
+};
